@@ -3,76 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Travelista - Tour Planning Company</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+        }
+
+        #background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            opacity: 0.7; /* Adjust the opacity as needed */
+        }
+
+        #todoList {
+            position: relative;
+            z-index: 1;
+            width: 300px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8); /* Transparent white background */
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.5s;
+            margin: 50px auto;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        li:hover {
+            background-color: #f2f2f2;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #1e90ff;
+        }
+
+        button {
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+    <title>To-Do List with Video Background</title>
 </head>
 <body>
-    <header>
-        <h1>Welcome to <span>Travelista</span></h1>
-        <nav>
-            <ul>
-                <li><a href="#registration">Registration</a></li>
-                <li><a href="#packages">Packages</a></li>
-                <li><a href="#about">About Us</a></li>
-                <li><a href="#contact">Contact</a></li>
-                <li><a href="#support">Support</a></li>
-            </ul>
-        </nav>
-    </header>
+    <video id="background-video" autoplay loop muted>
+        <!-- Replace 'your-video-source.mp4' with your actual video source -->
+        <source src="your-video-source.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
 
-    <main>
-        <section id="destinations">
-            <h2>Explore Our Destinations</h2>
-            <div class="gallery">
-                <img src="shimla.png" alt="Shimla" >
-                <img src="manali.png" alt="Manali" >
-                <img src="Rajasthan.png" alt="Rajasthan" >
-                <img src="Pune.png" alt="Pune" >
-            </div>
-        </section>
+    <div id="todoList">
+        <h2>To-Do List</h2>
+        <ul id="tasksList"></ul>
+        <input type="text" id="newTask" placeholder="Add a new task">
+        <button onclick="addTask()">Add</button>
 
-        <section id="registration">
-            <h2>Registration</h2>
-            <form action="#">
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required><br><br>
-                <label for="address">Address:</label>
-                <input type="text" id="address" name="address" required><br><br>
-                <label for="phone">Phone Number:</label>
-                <input type="tel" id="phone" name="phone" required><br><br>
-                <button type="submit">Submit</button>
-            </form>
-        </section>
+        <script>
+            function addTask() {
+                const taskInput = document.getElementById('newTask');
+                const taskText = taskInput.value.trim();
 
-        <section id="packages">
-            <h2>Packages</h2>
-            <div class="packages">
-                <div class="package">
-                    <h3>Luxury Package</h3>
-                    <p>Amount: $20,000</p>
-                    <button>Book Now</button>
-                </div>
-                <div class="package">
-                    <h3>Deluxe Package</h3>
-                    <p>Amount: $30,000</p>
-                    <button>Book Now</button>
-                </div>
-                <div class="package">
-                    <h3>Super Deluxe Package</h3>
-                    <p>Amount: $50,000</p>
-                    <button>Book Now</button>
-                </div>
-                <div class="package">
-                    <h3>Simple Package</h3>
-                    <p>Amount: $10,000</p>
-                    <button>Book Now</button>
-                </div>
-            </div>
-        </section>
-    </main>
+                if (taskText !== '') {
+                    const tasksList = document.getElementById('tasksList');
+                    const newTask = document.createElement('li');
+                    newTask.innerHTML = `
+                        <input type="checkbox">
+                        <span>${taskText}</span>
+                        <a href="https://en.wikipedia.org/wiki/${encodeURIComponent(taskText)}" target="_blank">Learn more</a>
+                        <button onclick="deleteTask(this)">Delete</button>
+                    `;
+                    tasksList.appendChild(newTask);
 
-    <footer>
-        &copy; 2024 Travelista. All rights reserved.
-    </footer>
+                    // Clear the input field
+                    taskInput.value = '';
+                }
+            }
+
+            function deleteTask(button) {
+                const taskItem = button.parentElement;
+                taskItem.remove();
+            }
+        </script>
+    </div>
 </body>
 </html>
